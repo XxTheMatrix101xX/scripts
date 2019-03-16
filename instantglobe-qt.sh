@@ -11,4 +11,11 @@ echo rpcpassword=dfsauiebdasfdfus >> ~/.global/global.conf
 echo addnode=159.65.186.196 >> ~/.global/global.conf
 qmake
 make
-./global-qt
+while true; do
+    read -p "Do you wish to install or just compile (y = install, n = compile)?" yn
+    case $yn in
+        [Yy]* ) sudo cp global-qt /usr/local/bin/global-qt; echo installed to bin; exit;;
+        [Nn]* ) echo compilation completed; exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
