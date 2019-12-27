@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#First we are going to make a 4GB swapfile since there is no reliable way to get memory info
+#First we are going to make a 4GB swapfile just in case it is needed
 printf "Creating Swapfile"
 sudo dd if=/dev/zero of=/koreswapfile bs=4096 count=1048576 > /dev/null 2>&1
 printf "."
@@ -35,11 +35,11 @@ printf "done\nCloning KORE Testnet repository."
 #After that we will clone the repository
 if [ ! -d kore ];
 then
-    git clone https://github.com/kore-core/kore.git -q --branch v13
+    git clone https://github.com/kore-core/kore.git
     printf "..done\nCloned to %s" $(pwd)/kore
 else
     mkdir kore-testnet && cd kore-testnet
-    git clone https://github.com/kore-core/kore.git -q --branch v13
+    git clone https://github.com/kore-core/kore.git
     printf "..done\nCloned to %s" $(pwd)/kore
 fi
 
@@ -48,7 +48,11 @@ cd kore/depends
 make
 cd ..
 ./autogen.sh
+##if you want qt uncomment the line below
 ./configure --with-gui=qt5 --prefix=$(pwd)/depends/x86_64-pc-linux-gnu
+
+##if you want daemon uncomment the line below
+#./configure --without-gui --prefix=$(pwd)/depends/x86_64-pc-linux-gnu
 
 make
 
